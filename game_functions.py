@@ -25,7 +25,7 @@ class GameFunction():
                         self.last_coord = clicked_coord
 
             elif event.type == pygame.MOUSEMOTION:
-                if (self.mouse_pressed is True):
+                if (self.mouse_pressed is True) and (not generation.started):
                     clicked_coord = self.__find_clicked_cell(event.pos)
                     if (clicked_coord is not None) and (clicked_coord != self.last_coord) :
                         generation.change_state(clicked_coord[0], clicked_coord[1])
