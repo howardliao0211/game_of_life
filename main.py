@@ -7,27 +7,60 @@ from button import Button
 
 
 def main():
+    global start_button
+    global generation
+
     pygame.init()
+    pygame.display.set_caption("Conway's Game of life")
+
+    clock = pygame.time.Clock()
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     screen.fill(BLACK)
     generation = GENERATION(screen)
 
     start_button = Button(
         screen,
-        screen.get_width() / 2 - (BUTTON_WIDTH / 2),
-        screen.get_height() * 0.9,
-        120,
+        screen.get_width()  * 0.6 - (160 / 2),
+        screen.get_height() * 0.8,
+        160,
         40,
         "Start",
-        generation.start,
-        True,
+        start_button_click_function,
+        False,
+    )
+
+    clear_button = Button(      
+        screen,
+        screen.get_width()  * 0.6 - (160 / 2),
+        screen.get_height() * 0.9,
+        160,
+        40,
+        "Clear",
+        generation.reset,
+        False,
     )
 
     while True:
+        clock.tick(FPS)
+        screen.fill(BLACK)
         gf.event_update(screen, generation)
-        pygame.display.update()
         start_button.update()
+        clear_button.update()
         generation.update()
+        pygame.display.flip()
+
+def start_button_click_function():
+    if(start_button.buttonText == 'Start'):
+        start_button.buttonText = 'Pause'
+        generation.start()
+
+    elif(start_button.buttonText == 'Pause'):
+        start_button.buttonText = 'Continue'
+        generation.pause()
+
+    elif(start_button.buttonText == 'Continue'):
+        start_button.buttonText = 'Pause'
+        generation.start()
 
 if __name__ == "__main__":
     main()

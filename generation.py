@@ -9,9 +9,14 @@ class GENERATION:
         self.screen = screen
         self.started = False
         self.cell_list = []
-        self.draw_grid()
+        self.generation_num = 0
+        self.reset()
 
-    def draw_grid(self):
+    def reset(self):
+        self.generation_num = 0
+        self.started = False
+        self.cell_list = []
+
         BLOCK_SIZE  # Set the size of the grid block
         for x in range(0, GAME_WIDTH, BLOCK_SIZE):
             temp_cell_list = []
@@ -19,6 +24,14 @@ class GENERATION:
                 cell = CELL(self.screen, x, y, CellState.DEAD)
                 temp_cell_list.append(cell)
             self.cell_list.insert(x, temp_cell_list)
+
+    def draw_cell(self):
+        for x in range(CELL_WIDTH):
+            for y in range(CELL_HEIGHT):
+                if self.cell_list[x][y].cell_state is CellState.ALIVE:
+                    self.set_to_alive(x, y)
+                else:
+                    self.set_to_dead(x, y)
 
     def set_to_dead(self, x, y):
         self.cell_list[x][y].set_to_dead(self.screen)
@@ -31,28 +44,48 @@ class GENERATION:
 
     def start(self):
         self.started = True
+    
+    def pause(self):
+        self.started = False
 
     def update(self):
 
-        if not self.started:
-            return
+        self.draw_cell()
 
-        live_neighnor_num = 0
-        cell_list_dc = copy.deepcopy(self.cell_list)
+        '''
+        Update world
+        '''
+        if self.started:
+            live_neighnor_num = 0
+            cell_list_dc = copy.deepcopy(self.cell_list)
+            self.generation_num += 1
+            for x in range(CELL_WIDTH):
+                for y in range(CELL_HEIGHT):
+                    live_neighnor_num = self.__find_live_neighbor_num(cell_list_dc, x, y)
+                    if(self.cell_list[x][y].cell_state is CellState.ALIVE):
+                        if(live_neighnor_num < 2):
+                            self.set_to_dead(x, y)
+                        elif(live_neighnor_num == 2 or live_neighnor_num == 3):
+                            self.set_to_alive(x, y)
+                        elif(live_neighnor_num > 3):
+                            self.set_to_dead(x, y)
+                    else:
+                        if(live_neighnor_num == 3):
+                            self.set_to_alive(x, y)
+        '''
+        Update Labels
+        '''
+        font = pygame.font.SysFont('monospace', 16)
+        gen_label = font.render('Generation: ' + str(self.generation_num), 1, WHITE)
+        self.screen.blit(gen_label, (0, self.screen.get_height() * 0.8))
 
+        live_cell = 0
         for x in range(CELL_WIDTH):
             for y in range(CELL_HEIGHT):
-                live_neighnor_num = self.__find_live_neighbor_num(cell_list_dc, x, y)
-                if(self.cell_list[x][y].cell_state is CellState.ALIVE):
-                    if(live_neighnor_num < 2):
-                        self.set_to_dead(x, y)
-                    elif(live_neighnor_num == 2 or live_neighnor_num == 3):
-                        self.set_to_alive(x, y)
-                    elif(live_neighnor_num > 3):
-                        self.set_to_dead(x, y)
-                else:
-                    if(live_neighnor_num == 3):
-                        self.set_to_alive(x, y)
+                if self.cell_list[x][y].cell_state is CellState.ALIVE:
+                    live_cell += 1
+        live_cell_label = font.render('Live Cell: ' + str(live_cell), 1, WHITE)
+        self.screen.blit(live_cell_label, (0, self.screen.get_height() * 0.9))
 
     def __find_live_neighbor_num(self, cell_list, x, y):
         live_neighbor = 0

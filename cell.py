@@ -15,12 +15,12 @@ class CELL():
 
     def set_to_dead(self, screen):
         self.cell_state = CellState.DEAD
-        pygame.draw.rect(screen, BLACK, pygame.Rect(self.x, self.y, BLOCK_SIZE, BLOCK_SIZE))
-        pygame.draw.rect(screen, WHITE, pygame.Rect(self.x, self.y, BLOCK_SIZE, BLOCK_SIZE), 1)
+        pygame.draw.rect(screen, BACKGROUND_COLOR, pygame.Rect(self.x, self.y, BLOCK_SIZE, BLOCK_SIZE))
+        pygame.draw.rect(screen, CELL_DEAD_COLOR, pygame.Rect(self.x, self.y, BLOCK_SIZE, BLOCK_SIZE), 1)
 
     def set_to_alive(self, screen):
         self.cell_state = CellState.ALIVE
-        pygame.draw.rect(screen, CYAN, pygame.Rect(self.x, self.y, BLOCK_SIZE, BLOCK_SIZE))
+        pygame.draw.rect(screen, CELL_ALIVE_COLOR, pygame.Rect(self.x, self.y, BLOCK_SIZE, BLOCK_SIZE))
 
     def change_state(self, screen):
         if self.cell_state is CellState.DEAD:
