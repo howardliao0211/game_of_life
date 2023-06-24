@@ -32,6 +32,7 @@ class GENERATION:
                     self.set_to_alive(x, y)
                 else:
                     self.set_to_dead(x, y)
+        pygame.draw.rect(self.screen, WHITE, pygame.Rect(0, 0, GAME_WIDTH, GAME_HEIGHT), 1)
 
     def set_to_dead(self, x, y):
         self.cell_list[x][y].set_to_dead(self.screen)
