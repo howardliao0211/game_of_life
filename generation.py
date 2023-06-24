@@ -77,7 +77,7 @@ class GENERATION:
         '''
         font = pygame.font.SysFont('monospace', 16)
         gen_label = font.render('Generation: ' + str(self.generation_num), 1, WHITE)
-        self.screen.blit(gen_label, (0, self.screen.get_height() * 0.8))
+        self.screen.blit(gen_label, (0, GAME_HEIGHT + PANEL_HEIGHT * 0.1))
 
         live_cell = 0
         for x in range(CELL_WIDTH):
@@ -85,7 +85,7 @@ class GENERATION:
                 if self.cell_list[x][y].cell_state is CellState.ALIVE:
                     live_cell += 1
         live_cell_label = font.render('Live Cell: ' + str(live_cell), 1, WHITE)
-        self.screen.blit(live_cell_label, (0, self.screen.get_height() * 0.9))
+        self.screen.blit(live_cell_label, (0, GAME_HEIGHT + PANEL_HEIGHT * 0.5))
 
     def __find_live_neighbor_num(self, cell_list, x, y):
         live_neighbor = 0

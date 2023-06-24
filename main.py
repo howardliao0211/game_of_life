@@ -1,6 +1,6 @@
 import sys
 import pygame
-import game_functions as gf
+from game_functions import GameFunction
 from constants import *
 from generation import GENERATION
 from button import Button
@@ -13,15 +13,17 @@ def main():
     pygame.init()
     pygame.display.set_caption("Conway's Game of life")
 
+    gf = GameFunction()
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     screen.fill(BLACK)
     generation = GENERATION(screen)
+    
 
     start_button = Button(
         screen,
         screen.get_width()  * 0.6 - (160 / 2),
-        screen.get_height() * 0.8,
+        GAME_HEIGHT + PANEL_HEIGHT * 0.1,
         160,
         40,
         "Start",
@@ -32,7 +34,7 @@ def main():
     clear_button = Button(      
         screen,
         screen.get_width()  * 0.6 - (160 / 2),
-        screen.get_height() * 0.9,
+        GAME_HEIGHT + PANEL_HEIGHT * 0.5,
         160,
         40,
         "Clear",
