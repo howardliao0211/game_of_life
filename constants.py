@@ -1,0 +1,20 @@
+from enum import Enum
+
+BLACK = (0, 0, 0)
+WHITE = (200, 200, 200)
+RED = (255, 0, 0)
+CYAN = (0, 255, 255)
+
+GAME_HEIGHT = 400
+GAME_WIDTH = 400
+BLOCK_SIZE = 20
+
+WINDOW_WIDTH = GAME_WIDTH
+WINDOW_HEIGHT = GAME_WIDTH + 100
+
+BUTTON_WIDTH  = 120
+BUTTON_HEIGHT = 40
+
+class CellState(Enum):
+    DEAD = 0
+    ALIVE = 1
