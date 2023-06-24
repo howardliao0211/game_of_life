@@ -43,7 +43,8 @@ def main():
     )
 
     while True:
-        clock.tick(FPS)
+        if generation.started:
+            clock.tick(FPS)
         screen.fill(BLACK)
         gf.event_update(screen, generation)
         start_button.update()
